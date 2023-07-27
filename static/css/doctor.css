@@ -1,0 +1,110 @@
+/* Create Firstaid Buttton*/
+
+.animated-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    line-height: 80px;
+    display: inline-block;
+    text-align: center;
+    background: #BD83B8;
+    position: relative;
+}
+
+.animated-btn::before,
+.animated-btn::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    background: #BD83B8;
+    animation: ripple-1 2s infinite ease-in-out;
+    z-index: -1;
+}
+
+.animated-btn::after {
+    background: #BD83B8;
+    animation: ripple-2 2s infinite ease-in-out;
+    animation-delay: 0.5s;
+}
+
+@keyframes ripple-1 {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+@keyframes ripple-2 {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.7);
+        opacity: 0;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* List */
+
+.card {
+    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+
+.avatar.sm {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: .818125rem;
+}
+
+.table-nowrap .table td,
+.table-nowrap .table th {
+    white-space: nowrap;
+}
+
+.table>:not(caption)>*>* {
+    padding: 0.75rem 1.25rem;
+    border-bottom-width: 1px;
+}
+
+table th {
+    font-weight: 600;
+    background-color: #eeecfd !important;
+}

@@ -1,0 +1,143 @@
+{% extends './base.html'%}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/firstaid.css' %}">
+{% endblock head %}
+
+{% block body %}
+
+
+<div class="container">
+    <div id="accordion" class="py-5">
+        {% for firstaid in firstaids%}
+        <div class="card border-0 wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+            <div class="card-header p-0 border-0" id="heading-{{firstaid.id}}">
+                <button class="btn btn-link accordion-title border-0 collapsed" data-bs-toggle="collapse"
+                    data-bs-target="#collapse-{{firstaid.id}}" aria-expanded="false" aria-controls="#collapse-{{firstaid.id}}"><i
+                        class="fas fa-minus text-center d-flex align-items-center justify-content-center h-100"></i>{{firstaid.title}}</button>
+            </div>
+            <div id="collapse-{{firstaid.id}}" class="collapse " aria-labelledby="heading-{{firstaid.id}}" data-bs-parent="#accordion">
+                <div class="card-body accordion-body">
+                    <p>{{firstaid.description}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% if request.user.is_authenticated%}
+
+<div style="position: fixed; bottom: 25vh; right: 3vw; cursor: pointer;">
+    <!-- Animated button -->
+    <a class="animated-btn text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+            class="fa-solid fa-pen fa-xl"></i></a>
+</div>
+
+{%endif%}
+
+<!-- Modal -->
+<div class="modal top fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="true" data-bs-keyboard="true">
+    <div class="modal-dialog modal-fullscreen ">
+        <div class="modal-content">
+            <div class="modal-header custom_secondary">
+                <h5 class="modal-title text-center" style="color: black;" id="exampleModalLabel">Firstaid Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body custom_light">
+
+
+                <div class="container">
+                    <div class=" text-center mt-5 ">
+
+                        <h1>Add FirstAid</h1>
+
+
+                    </div>
+
+
+                    <div class="row ">
+                        <div class="col-lg-7 mx-auto">
+                            <div class="card mt-2 mx-auto p-4 bg-light">
+                                <div class="card-body bg-light">
+
+                                    <div class="container">
+                                        <form accept="{% url 'firstaid' %}" method="POST" id="contact-form" role="form">
+                                            {% csrf_token %}
+
+
+                                            <div class="controls">
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="form_name">Title *</label>
+                                                            <input id="form_name" type="text" name="title"
+                                                                class="form-control"
+                                                                placeholder="Please enter your firstname *"
+                                                                required="required" data-error="Firstname is required.">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" style="margin-top: 10px;">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="form_message">Description *</label>
+                                                            <textarea id="form_message" name="description"
+                                                                class="form-control"
+                                                                placeholder="Write your message here." rows="4"
+                                                                required="required"
+                                                                data-error="Please, leave us a message."></textarea>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="col-md-12 text-center " style="margin-top: 10px;">
+
+                                                        <input type="submit" class="btn btn-success btn-send  pt-2 btn-block
+                                            " value="Upload FirstAid">
+
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- /.8 -->
+
+                        </div>
+                        <!-- /.row-->
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer custom_secondary">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+
+
+
+<script src="{% static 'js/firstaid.js'%}">
+</script>
+{% endblock body %}

@@ -1,0 +1,339 @@
+{% extends './base.html'%}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/firstaid.css' %}">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+{% endblock head %}
+
+{% block body %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 mb-3 mb-lg-5">
+            <div class="overflow-hidden card table-nowrap table-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Doctors List</h5>
+                    <a href="#!" class="btn btn-light btn-sm">View All</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="small text-uppercase bg-body text-muted">
+                            <tr>
+                                <th>Name</th>
+                                <th>Degree</th>
+                                <th>Hospital</th>
+                                <th>Mobile</th>
+                                <th>Added Date</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for doctor in doctors %}
+                            <tr class="align-middle">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                            class="avatar sm rounded-pill me-3 flex-shrink-0" alt="Customer">
+                                        <div>
+                                            <div class="h6 mb-0 lh-1">{{doctor.name}}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{doctor.degree}}</td>
+                                <td> <span class="d-inline-block align-middle">{{doctor.hospital}}</span></td>
+                                <td><span>{{doctor.mobile}}</span></td>
+                                <td>{{doctor.added_date}}</td>
+                                <td class="text-end">
+                                    <div class="drodown">
+                                        <a data-bs-toggle="dropdown" href="#" class="btn p-1" aria-expanded="false">
+                                            <i class="fa fa-bars" aria-hidden="true"></i>
+                                        </a>
+                                        {% if request.user.is_authenticated%}
+                                        <div class="dropdown-menu dropdown-menu-end" >
+                                            <button data-bs-toggle="modal" data-bs-target="#appointmentModal"  class="dropdown-item">Make Appointment</button>
+                                        </div>
+                                        {%else%}
+                                        <div class="dropdown-menu dropdown-menu-end" >
+                                            <a href="{% url 'login'%}" class="dropdown-item">Make Appointment</a>
+                                        </div>
+                                        {%endif%}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal top fade " id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModal" aria-hidden="true"
+    data-bs-backdrop="true" data-bs-keyboard="true">
+    <div class="modal-dialog modal-fullscreen ">
+        <div class="modal-content">
+            <div class="modal-header custom_secondary">
+                <h5 class="modal-title text-center" style="color: black;" id="appointmentModal">Appointment Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body custom_light">
+
+                <div class="container">
+                    <div class=" text-center mt-5 ">
+
+                        <h1>Book Appointment</h1>
+
+
+                    </div>
+
+
+                    <div class="row ">
+                        <div class="col-lg-7 mx-auto">
+                            <div class="card mt-2 mx-auto p-4 bg-light">
+                                <div class="card-body bg-light">
+
+                                    <div class="container">
+                                        <form action="{% url 'appointment'%}" method="POST" id="contact-form" role="form">
+
+                                            {% csrf_token %}
+                                            <div class="controls">
+
+                                                <div class="row" style="margin-top: 10px;">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="form_name">Name *</label>
+                                                            <input id="form_name" type="text" name="name"
+                                                                class="form-control" placeholder="Your Name *"
+                                                                required="required"
+                                                                data-error="Name is required.">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="form_lastname">Location *</label>
+                                                            <input id="form_lastname" type="text" name="location"
+                                                                class="form-control" placeholder="Please enter Location *"
+                                                                required="required" data-error="Location is required.">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin-top: 10px;">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="form_email">Problem *</label>
+                                                            <input id="form_email" type="text" name="problem"
+                                                                class="form-control"
+                                                                placeholder="Please enter Problem *"
+                                                                required="required"
+                                                                data-error="Problem is required.">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="form_email">Mobile *</label>
+                                                            <input id="form_email" type="number" name="mobile"
+                                                                class="form-control" placeholder="Mobile Number  *"
+                                                                required="required"
+                                                                data-error="Valid mobile is required.">
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row" style="margin-top: 10px;">
+
+
+                                                    <div class="col-md-12 text-center">
+
+                                                        <input type="submit" class="btn btn-success btn-send  pt-2 btn-block
+                                        " value="Book Appointment">
+
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- /.8 -->
+
+                        </div>
+                        <!-- /.row-->
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer custom_secondary">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if request.user.is_authenticated%}
+<div style="position: fixed; bottom: 25vh; right: 3vw; cursor: pointer;">
+    <!-- Animated button -->
+    <a class="animated-btn text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+            class="fa-solid fa-pen fa-xl"></i></a>
+</div>
+{%endif%}
+
+<!-- Modal -->
+<div class="modal top fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="true" data-bs-keyboard="true">
+    <div class="modal-dialog modal-fullscreen ">
+        <div class="modal-content">
+            <div class="modal-header custom_secondary">
+                <h5 class="modal-title text-center" style="color: black;" id="exampleModalLabel">Doctor Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body custom_light">
+
+                <div class="container">
+                    <div class=" text-center mt-5 ">
+
+                        <h1>Add new Doctor</h1>
+
+
+                    </div>
+
+
+                    <div class="row ">
+                        <div class="col-lg-7 mx-auto">
+                            <div class="card mt-2 mx-auto p-4 bg-light">
+                                <div class="card-body bg-light">
+
+                                    <div class="container">
+                                        <form action="{% url 'doctor'%}" method="POST" id="contact-form" role="form">
+
+                                            {% csrf_token %}
+                                            <div class="controls">
+
+                                                <div class="row" style="margin-top: 10px;">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="form_name">Name *</label>
+                                                            <input id="form_name" type="text" name="name"
+                                                                class="form-control" placeholder="Name of Doctor *"
+                                                                required="required"
+                                                                data-error="Name of Doctor is required.">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="form_lastname">Degree *</label>
+                                                            <input id="form_lastname" type="text" name="degree"
+                                                                class="form-control" placeholder="Please enter Degree *"
+                                                                required="required" data-error="Degree is required.">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin-top: 10px;">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="form_email">Hospital *</label>
+                                                            <input id="form_email" type="text" name="hospital"
+                                                                class="form-control"
+                                                                placeholder="Please enter hospital *"
+                                                                required="required"
+                                                                data-error="Hospital name required.">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="form_email">Mobile *</label>
+                                                            <input id="form_email" type="number" name="mobile"
+                                                                class="form-control" placeholder="Mobile Number  *"
+                                                                required="required"
+                                                                data-error="Valid mobile is required.">
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row" style="margin-top: 10px;">
+
+
+                                                    <div class="col-md-12 text-center">
+
+                                                        <input type="submit" class="btn btn-success btn-send  pt-2 btn-block
+                                        " value="Add Doctor">
+
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- /.8 -->
+
+                        </div>
+                        <!-- /.row-->
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer custom_secondary">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+{% endblock body %}
